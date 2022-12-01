@@ -1,0 +1,13 @@
+{
+  "name": "@crypto-portfolio/services",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "aws-sdk": "^2.1257.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.3.1",
+    "@types/aws-lambda": "^8.10.108"
+  }
+}
