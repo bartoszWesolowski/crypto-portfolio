@@ -1,19 +1,27 @@
-export type Currency = string | "BTC" | "ETH" | "PLN" | "BUSD" | "USDT" | "GAME" | "BAT";
+export type Currency =
+  | string
+  | "BTC"
+  | "ETH"
+  | "PLN"
+  | "BUSD"
+  | "USDT"
+  | "GAME"
+  | "BAT";
 
 export interface TransactionItem {
-    date: Date;
-    type: 'SELL' | 'BUY';
-    price: number;
-    amount: number;
-    cost: number;
-    currencyBought: string;
-    currencySold: string;
-    marketLabel: string;
-    description: string;
-    id: string;
-    cryptoMarket: "Zonda" | "Binance" | "Crypto.com" | string;
+  date: Date;
+  type: "SELL" | "BUY" | string;
+  pair: string;
+  price: number;
+  amount: number;
+  value: number;
+  primaryCurrency: string;
+  secondaryCurrency: string;
+  description?: string;
+  id: string;
+  cryptoMarket: "Zonda" | "Binance" | "Crypto.com" | string;
 }
 
 export interface TransactionProvider {
-    getTransactions() : TransactionItem[];
+  getTransactions(): TransactionItem[] | Promise<TransactionItem[]>;
 }
