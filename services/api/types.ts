@@ -1,16 +1,16 @@
 export type Currency =
   | string
-  | "BTC"
-  | "ETH"
-  | "PLN"
-  | "BUSD"
-  | "USDT"
-  | "GAME"
-  | "BAT";
+  | 'BTC'
+  | 'ETH'
+  | 'PLN'
+  | 'BUSD'
+  | 'USDT'
+  | 'GAME'
+  | 'BAT';
 
 export interface TransactionItem {
   date: Date;
-  type: "SELL" | "BUY" | string;
+  type: 'SELL' | 'BUY' | string;
   pair: string;
   price: number;
   amount: number;
@@ -19,9 +19,11 @@ export interface TransactionItem {
   secondaryCurrency: string;
   description?: string;
   id: string;
-  cryptoMarket: "Zonda" | "Binance" | "Crypto.com" | string;
+  cryptoMarket: 'Zonda' | 'Binance' | 'Crypto.com' | string;
 }
 
 export interface TransactionProvider {
   getTransactions(): TransactionItem[] | Promise<TransactionItem[]>;
 }
+
+export type TransactionsFileProvider = 'ZONDA' | 'BINANCE';

@@ -1,7 +1,4 @@
-import {
-  TransactionItem,
-  TransactionProvider,
-} from '../../api/TransactionProcessor';
+import { TransactionItem, TransactionProvider } from '../../api/types';
 import csv from 'csv-parser';
 import str from 'string-to-stream';
 import { ZondaCsvItem } from './ZondaTypes';
@@ -19,16 +16,41 @@ export class ZondaCsvTradeHistoryTransactionProvider
   getTransactions(): Promise<TransactionItem[]> {
     const items: TransactionItem[] = [];
     return new Promise((resolve, reject) => {
-      str(this.transactionHistoryCsv)
-        .pipe(csv({ separator: ';' }))
-        .on('data', (data) => {
-          console.log(data);
-          items.push(this.mapItem(data));
-        })
-        .on('end', () => {
-          console.log(items);
-          resolve(items);
-        });
+      try {
+        str(this.transactionHistoryCsv)
+          .pipe(
+            csv({
+              separator: ';',
+              headers: [
+                'Market',
+                'Operation date',
+                'Action',
+                'Type',
+                'Rate',
+                'Amount',
+                'Value',
+                'ID',
+              ],
+              skipLines: 1,
+            }),
+          )
+          .on('headers', (headers) => {
+            console.log(headers);
+          })
+          .on('data', (data) => {
+            console.log(`Processing data`);
+            console.log(data);
+            items.push(this.mapItem(data));
+            console.log('Item added');
+          })
+          .on('end', () => {
+            console.log(items);
+            resolve(items);
+          });
+      } catch (e) {
+        console.log(e);
+        reject(e);
+      }
     });
   }
 

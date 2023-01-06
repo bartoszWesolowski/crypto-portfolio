@@ -1,4 +1,4 @@
-import { APIGatewayProxyEventV2, Context } from "aws-lambda";
+import { APIGatewayProxyEventV2, Context } from 'aws-lambda';
 
 export interface HandlerResponse {
   body?: object;
@@ -7,7 +7,7 @@ export interface HandlerResponse {
 export interface RequestHandler {
   handleRequest(
     event: APIGatewayProxyEventV2,
-    context: Context
+    context: Context,
   ): HandlerResponse | Promise<HandlerResponse>;
 }
 
@@ -16,13 +16,13 @@ export function handler(requestHandler: RequestHandler) {
     let response: HandlerResponse;
     try {
       // Run the Lambda
-      console.log("event and context");
-      console.log(JSON.stringify(event, null, 4));
-      console.log(JSON.stringify(context, null, 4));
+      // console.log('event and context');
+      // console.log(JSON.stringify(event, null, 4));
+      // console.log(JSON.stringify(context, null, 4));
       response = await requestHandler.handleRequest(event, context);
     } catch (e) {
       console.error(e);
-      let message = "Failed to perform request.";
+      let message = 'Failed to perform request.';
       if (e instanceof Error) {
         message = e.message;
       }
@@ -30,14 +30,15 @@ export function handler(requestHandler: RequestHandler) {
         body: { error: message },
         statusCode: 500,
       };
+      console.log(e);
     }
 
     // Return HTTP response
     return {
       statusCode: response.statusCode || 200,
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
       },
       body: JSON.stringify(response.body || {}),
     };

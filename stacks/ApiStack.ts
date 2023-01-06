@@ -1,16 +1,26 @@
-import { Api, Cognito, StackContext } from "@serverless-stack/resources";
+import { Api, StackContext, use } from '@serverless-stack/resources';
+import { StorageStack } from './StorageStack';
 
 export function ApiStack({ stack }: StackContext) {
   // Create Api
-  const api = new Api(stack, "Api", {
+
+  const { bucket } = use(StorageStack);
+  const api = new Api(stack, 'Api', {
     defaults: {
-      authorizer: "iam",
+      authorizer: 'iam',
+      function: {
+        permissions: [bucket],
+        environment: {
+          BUCKET_NAME: bucket.bucketName,
+        },
+      },
     },
     routes: {
-      "GET /private": "functions/private.main",
-      "GET /public": {
-        function: "functions/public.main",
-        authorizer: "none",
+      'GET /private': 'functions/private.main',
+      'GET /transactions/file': 'functions/transactionsfile.main',
+      'GET /public': {
+        function: 'functions/public.main',
+        authorizer: 'none',
       },
     },
   });

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { DateParser } from '../../api/date/DateParser';
-import { TransactionItem } from '../../api/TransactionProcessor';
+import { TransactionItem } from '../../api/types';
 import { ZondaDateParser } from './ZondaDateParser';
 import { ZondaCsvItem } from './ZondaTypes';
 
@@ -19,6 +19,7 @@ export class ZondaCsvTransactionItem implements TransactionItem {
   dateParser: DateParser;
 
   constructor(zondaCsvItem: ZondaCsvItem) {
+    console.log(`Mapping item ${zondaCsvItem}`);
     this.dateParser = new ZondaDateParser();
     this.id = zondaCsvItem.ID;
     [this.primaryCurrency, this.secondaryCurrency] =

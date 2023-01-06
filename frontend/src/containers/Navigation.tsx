@@ -4,13 +4,13 @@ import HomeIcon from '@rsuite/icons/legacy/Home';
 import { useAppContext } from '../contextLib';
 import UserInfoIcon from '@rsuite/icons/UserInfo';
 import { Auth } from 'aws-amplify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Navigation = () => {
   const { isAuthenticated, userHasAuthenticated } = useAppContext();
   const nav = useNavigate();
 
-  const logOut = async(event: React.SyntheticEvent<HTMLElement>) => {
+  const logOut = async (event: React.SyntheticEvent<HTMLElement>) => {
     event.preventDefault();
     try {
       await Auth.signOut();
@@ -20,6 +20,7 @@ export const Navigation = () => {
       console.error(`Failed to log out ${e}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
     }
   };
+
   const LoggedInUserRightMenu = () => {
     return (
       <Nav pullRight>
@@ -45,12 +46,13 @@ export const Navigation = () => {
       <Navbar.Brand>Crypto Portfolio</Navbar.Brand>
       <Nav>
         <Nav.Item href="/" icon={<HomeIcon />}></Nav.Item>
-        <Nav.Menu title="About">
-          <Nav.Item>Company</Nav.Item>
-          <Nav.Item>Team</Nav.Item>
-          <Nav.Menu title="Contact">
-            <Nav.Item>Via email</Nav.Item>
-            <Nav.Item>Via telephone</Nav.Item>
+        <Nav.Item href="/import/file/zonda">Zonda</Nav.Item>
+        <Nav.Menu title="Enter Coins">
+          <Nav.Item>Manual import</Nav.Item>
+          <Nav.Menu title="File Import">
+            <Nav.Item as={Link} to="/import/file/zonda">
+              Zonda
+            </Nav.Item>
           </Nav.Menu>
         </Nav.Menu>
       </Nav>
