@@ -14,14 +14,14 @@ export class ZondaCsvTransactionItem implements TransactionItem {
   primaryCurrency: string;
   secondaryCurrency: string;
   id: string;
+  comment?: string;
   cryptoMarket: string;
-
-  dateParser: DateParser;
 
   constructor(zondaCsvItem: ZondaCsvItem) {
     console.log(`Mapping item ${zondaCsvItem}`);
-    this.dateParser = new ZondaDateParser();
-    this.id = zondaCsvItem.ID;
+    const dateParser = new ZondaDateParser();
+    this.id = "";
+    this.comment = zondaCsvItem.ID;
     [this.primaryCurrency, this.secondaryCurrency] =
       zondaCsvItem.Market.split('-');
     this.price = parseFloat(zondaCsvItem.Rate);
@@ -30,6 +30,6 @@ export class ZondaCsvTransactionItem implements TransactionItem {
     this.pair = zondaCsvItem.Market;
     this.type = (zondaCsvItem.Action ?? '').toUpperCase();
     this.cryptoMarket = 'Zonda';
-    this.date = this.dateParser.parseDate(zondaCsvItem['Operation date']);
+    this.date = dateParser.parseDate(zondaCsvItem['Operation date']);
   }
 }

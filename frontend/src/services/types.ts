@@ -20,6 +20,7 @@ export interface TransactionItem {
   description?: string;
   id: string;
   cryptoMarket: 'Zonda' | 'Binance' | 'Crypto.com' | string;
+  comment?: string;
 }
 
 export type TransactionsFileProvider = 'ZONDA' | 'BINANCE';

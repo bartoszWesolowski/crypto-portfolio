@@ -15,6 +15,8 @@ export interface TransactionsApiClient {
   getTransactionsFromFile(
     params: TransactionsFromFileParams,
   ): Promise<TransactionsFromFileResponse>;
+
+  saveTransactions(transactions: TransactionItem[]): Promise<any>;
 }
 
 export class TransactionsApiClientImpl implements TransactionsApiClient {
@@ -32,5 +34,11 @@ export class TransactionsApiClientImpl implements TransactionsApiClient {
       },
     );
     return transactions as TransactionsFromFileResponse;
+  }
+
+  async saveTransactions(transactions: TransactionItem[]): Promise<any> {
+    return await API.post('crypto-portfolio', '/transactions', {
+      body: { transactions: transactions },
+    });
   }
 }

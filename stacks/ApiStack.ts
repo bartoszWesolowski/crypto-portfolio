@@ -18,6 +18,7 @@ export function ApiStack({ stack }: StackContext) {
     routes: {
       'GET /private': 'functions/private.main',
       'GET /transactions/file': 'functions/transactionsfile.main',
+      'POST /transactions': 'functions/saveTransactions.main',
       'GET /public': {
         function: 'functions/public.main',
         authorizer: 'none',

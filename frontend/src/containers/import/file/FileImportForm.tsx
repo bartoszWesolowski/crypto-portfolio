@@ -64,8 +64,8 @@ export const FileImportForm = (props: FileImportFormProps) => {
     try {
       setLoading(true);
       const key = await s3Upload(files[0]);
-      alert(`Uploaded key ${key}`);
-      await fetchTransactions(key);
+      const t = await fetchTransactions(key);
+      setTransactions(t);
     } catch (e: any) {
       console.log(e);
     }
@@ -77,9 +77,7 @@ export const FileImportForm = (props: FileImportFormProps) => {
       fileKey: fileKey,
       type: props.importType,
     });
-    console.log(JSON.stringify(response, null, 4));
-    setTransactions(response.transactions);
-    return transactions;
+    return response.transactions;
   };
 
   return (

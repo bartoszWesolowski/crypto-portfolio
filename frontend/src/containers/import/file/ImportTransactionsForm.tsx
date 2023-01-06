@@ -1,8 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Panel, FlexboxGrid, Loader, ButtonToolbar } from 'rsuite';
+import {
+  Panel,
+  FlexboxGrid,
+  Loader,
+  ButtonToolbar,
+  Notification,
+  Placeholder,
+  useToaster,
+} from 'rsuite';
 import { TransactionItem } from '../../../services/types';
 
 import { Table, Button } from 'rsuite';
+import { TransactionsApiClientImpl } from '../../../services/TransactionsApi';
+import { toast } from 'aws-amplify';
+import { MessageType } from 'rsuite/esm/Notification/Notification';
 export interface ImportTransactionsFormProps {
   transactions: TransactionItem[];
 }
@@ -13,7 +24,33 @@ export const ImportTransactionsForm = ({
 
   const { Column, HeaderCell, Cell } = Table;
 
-  const saveTransactions = () => {};
+  const transactionsClient = new TransactionsApiClientImpl();
+
+  const toaster = useToaster();
+
+  const message = (text: string, messageType: MessageType) => {
+    return (
+      <Notification type={messageType} header={messageType} closable>
+        <div>{text}</div>
+      </Notification>
+    );
+  };
+
+  const saveTransactions = async () => {
+    try {
+      setLoading(true);
+      await transactionsClient.saveTransactions(transactions);
+      toaster.push(message('Transactions saved', 'success'), {
+        placement: 'topCenter',
+      });
+    } catch (e) {
+      toaster.push(message('Failed to save transactions', 'error'), {
+        placement: 'topCenter',
+      });
+    }
+    setLoading(false);
+  };
+
   const transactionsForm = () => {
     return (
       <FlexboxGrid justify="center">
@@ -75,7 +112,12 @@ export const ImportTransactionsForm = ({
               </Column>
             </Table>
             <ButtonToolbar>
-              <Button type="submit" appearance="primary" disabled={isLoading}>
+              <Button
+                type="submit"
+                appearance="primary"
+                disabled={isLoading}
+                onClick={saveTransactions}
+              >
                 {isLoading && <Loader size="xs" />}Save transactions
               </Button>
             </ButtonToolbar>
