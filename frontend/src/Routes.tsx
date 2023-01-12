@@ -4,6 +4,7 @@ import BusinessHome from './containers/business/BusinessHome';
 import RegisterBusinessForm from './containers/business/forms/register/RegisterBusinessForm';
 import Home from './containers/Home';
 import ZondaFileImport from './containers/import/file/zonda/ZondaFileImport';
+import { TransactionsPage } from './containers/import/manual/TransactionsPage';
 import { Login } from './containers/Login';
 import Profile from './containers/Profile';
 import { Signup } from './containers/Singup';
@@ -21,6 +22,7 @@ export default function AppRoutes() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/business" element={<BusinessHome />} />
       <Route path="/import/file/zonda" element={<ZondaFileImport />} />
+      <Route path="/transactions" element={<TransactionsPage />} />
       <Route
         path={LINKS.REGISTER_BUSINESS}
         element={<RegisterBusinessForm />}

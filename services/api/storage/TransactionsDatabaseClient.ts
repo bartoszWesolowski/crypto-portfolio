@@ -6,11 +6,11 @@ const transactions: TransactionItem[] = [];
 export interface TransactionsDbClient {
   saveTransactions(userId: string, transactions: TransactionItem[]): void;
 
-  getTransactions(): Promise<TransactionItem[]>;
+  getTransactions(userId: string): Promise<TransactionItem[]>;
 }
 
 export class TransactionsDbClientImpl implements TransactionsDbClient {
-  getTransactions(): Promise<TransactionItem[]> {
+  getTransactions(userId: string): Promise<TransactionItem[]> {
     return Promise.resolve(transactions);
   }
 

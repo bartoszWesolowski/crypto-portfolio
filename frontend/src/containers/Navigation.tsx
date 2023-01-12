@@ -48,7 +48,9 @@ export const Navigation = () => {
         <Nav.Item href="/" icon={<HomeIcon />}></Nav.Item>
         <Nav.Item href="/import/file/zonda">Zonda</Nav.Item>
         <Nav.Menu title="Enter Coins">
-          <Nav.Item>Manual import</Nav.Item>
+          <Nav.Item as={Link} to="/transactions">
+            Enter coins
+          </Nav.Item>
           <Nav.Menu title="File Import">
             <Nav.Item as={Link} to="/import/file/zonda">
               Zonda
