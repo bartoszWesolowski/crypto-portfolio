@@ -28,3 +28,10 @@ export interface TransactionProvider {
 }
 
 export type TransactionsFileProvider = 'ZONDA' | 'BINANCE';
+
+export type User = {
+  _id?: string | any;
+  userId: string;
+  transactions: TransactionItem[];
+  email: string;
+};

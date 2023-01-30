@@ -1,6 +1,6 @@
 import { TransactionItem } from '../types';
 import { v4 as uuidv4 } from 'uuid';
-
+import { connectToDatabase } from './MongoDbClient';
 const transactions: TransactionItem[] = [];
 
 export interface TransactionsDbClient {
@@ -10,7 +10,9 @@ export interface TransactionsDbClient {
 }
 
 export class TransactionsDbClientImpl implements TransactionsDbClient {
-  getTransactions(userId: string): Promise<TransactionItem[]> {
+  async getTransactions(userId: string): Promise<TransactionItem[]> {
+    const db = await connectToDatabase();
+    db.collection('users')
     return Promise.resolve(transactions);
   }
 
