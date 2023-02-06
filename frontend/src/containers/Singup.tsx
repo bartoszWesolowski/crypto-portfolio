@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Auth } from 'aws-amplify';
+import { API, Auth } from 'aws-amplify';
 import { useAppContext } from '../contextLib';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -29,18 +29,27 @@ export const Signup = () => {
   const [loading, setIsLoading] = useState(false);
   const [signupSubmitted, setSignupSubmitted] = useState(false);
 
-  const handleConfirmationFormSubmit = async(
+  const handleConfirmationFormSubmit = async (
     checkStatus: boolean,
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
     setIsLoading(true);
     try {
+      // TODO: handle registration flow errors properly
       await Auth.confirmSignUp(
         fields.email,
         confirmationFormFields.confirmationCode,
       );
       await Auth.signIn(fields.email, fields.password);
+      const register = await API.post('crypto-portfolio', '/register', {
+        body: {
+          firstName: fields.firstName,
+          lastName: fields.lastName,
+          email: fields.email,
+        },
+      });
+      console.table(register);
       userHasAuthenticated(true);
       nav('/');
     } catch (e) {
@@ -49,7 +58,7 @@ export const Signup = () => {
     }
   };
 
-  const handleSubmit = async(
+  const handleSubmit = async (
     checkStatus: boolean,
     event: React.FormEvent<HTMLFormElement>,
   ) => {
@@ -75,11 +84,9 @@ export const Signup = () => {
   function renderConfirmationForm() {
     return (
       <div className="confirmationForm">
-        {loading
-          ? (
-              renderFormLoader()
-            )
-          : (
+        {loading ? (
+          renderFormLoader()
+        ) : (
           <Form
             onSubmit={handleConfirmationFormSubmit}
             onChange={handleConfirmationFormChange}
@@ -96,7 +103,7 @@ export const Signup = () => {
               </ButtonToolbar>
             </Form.Group>
           </Form>
-            )}
+        )}
       </div>
     );
   }
@@ -104,19 +111,17 @@ export const Signup = () => {
   function renderSignupForm() {
     return (
       <div className="signupForm">
-        {loading
-          ? (
-              renderFormLoader()
-            )
-          : (
+        {loading ? (
+          renderFormLoader()
+        ) : (
           <Form onSubmit={handleSubmit} onChange={handleFormChange}>
-            <Form.Group controlId="firstname">
+            <Form.Group controlId="firstName">
               <Form.ControlLabel>First name</Form.ControlLabel>
-              <Form.Control name="firstname" type="name" />
+              <Form.Control name="firstName" type="name" />
             </Form.Group>
-            <Form.Group controlId="lastname">
+            <Form.Group controlId="lastName">
               <Form.ControlLabel>Last name</Form.ControlLabel>
-              <Form.Control name="lastname" type="name" />
+              <Form.Control name="lastName" type="name" />
             </Form.Group>
             <Form.Group controlId="email">
               <Form.ControlLabel>Email</Form.ControlLabel>
@@ -151,7 +156,7 @@ export const Signup = () => {
               </ButtonToolbar>
             </Form.Group>
           </Form>
-            )}
+        )}
       </div>
     );
   }

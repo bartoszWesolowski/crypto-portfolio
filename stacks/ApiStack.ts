@@ -12,11 +12,13 @@ export function ApiStack({ stack }: StackContext) {
         permissions: [bucket],
         environment: {
           BUCKET_NAME: bucket.bucketName,
+          MONGODB_URI: process.env.MONGODB_URI ?? '',
         },
       },
     },
     routes: {
       'GET /private': 'functions/private.main',
+      'POST /register': 'functions/register.main',
       'GET /transactions/file': 'functions/transactionsfile.main',
       'GET /transactions': 'functions/getTransactions.main',
       'POST /transactions': 'functions/saveTransactions.main',

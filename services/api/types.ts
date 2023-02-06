@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export type Currency =
   | string
   | 'BTC'
@@ -18,7 +20,7 @@ export interface TransactionItem {
   primaryCurrency: string;
   secondaryCurrency: string;
   description?: string;
-  id: string;
+  _id: string | ObjectId;
   cryptoMarket: 'Zonda' | 'Binance' | 'Crypto.com' | string;
   comment?: string;
 }
@@ -28,3 +30,10 @@ export interface TransactionProvider {
 }
 
 export type TransactionsFileProvider = 'ZONDA' | 'BINANCE';
+
+export type User = {
+  _id?: string | any;
+  userId: string;
+  transactions: TransactionItem[];
+  email: string;
+};

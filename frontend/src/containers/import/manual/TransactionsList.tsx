@@ -48,18 +48,18 @@ export const TransactionList = () => {
     return (
       <FlexboxGrid justify="center">
         <FlexboxGrid.Item colspan={24}>
-          <Panel header={<h3>Processed Transactions</h3>} bordered>
+          <Panel header={<h3>Transactions</h3>} bordered>
             <Table
+              height={500}
               data={transactions}
               onRowClick={(rowData) => {
                 console.log(rowData);
               }}
             >
-              <Column width={60} align="center" fixed>
+              <Column width={80} align="center" fixed>
                 <HeaderCell>Id</HeaderCell>
-                <Cell dataKey="id" />
+                <Cell dataKey="_id" />
               </Column>
-
               <Column width={200}>
                 <HeaderCell>Date</HeaderCell>
                 <Cell dataKey="date" />

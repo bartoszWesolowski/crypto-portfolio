@@ -5,45 +5,49 @@ import {
   RequestHandler,
 } from '../util/RequestHandler';
 import { RequestIdentityId } from '../util/IdentityId';
-import { TransactionItem } from 'api/types';
-import { TransactionsDbClientImpl } from '../api/storage/TransactionsDatabaseClient';
+import { RegisterDbClientImpl } from '../api/storage/RegisterDatabaseClient';
 
-export interface SaveTransactionsRequestBody {
-  transactions: TransactionItem[];
-}
-
-const db = new TransactionsDbClientImpl();
-
-class SaveTransactionsRequestHandler implements RequestHandler {
+const db = new RegisterDbClientImpl();
+type RegisterUserParams = {
+  email: string;
+  firstName: string;
+  lastName: string;
+};
+class RegisterRequestHandler implements RequestHandler {
   async handleRequest(event: APIGatewayProxyEventV2): Promise<HandlerResponse> {
     const identity = new RequestIdentityId(event);
+
     const body = Object.assign(
       { transactions: [] },
       JSON.parse(event.body ?? '{}'),
-    ) as SaveTransactionsRequestBody;
+    ) as RegisterUserParams;
 
-    if (body.transactions.length === 0) {
+    if (!body.email) {
       return {
         statusCode: 400,
         body: {
-          message: 'No transactions to save.',
-          e: event,
-          body,
+          message: 'Missing user email.',
         },
       };
     }
 
-    await db.saveTransactions(identity.getUserId(), body.transactions);
+    console.log(body);
+    // TODO: do not allow creating more than one element with that ID
+    await db.registerUser({
+      userId: identity.getUserId(),
+      transactions: [],
+      email: body.email,
+    });
 
     return {
       statusCode: 204,
       body: {
-        message: 'Transactions saved',
+        message: 'User saved',
       },
     };
   }
 }
 
 export const main: APIGatewayProxyHandlerV2 = handler(
-  new SaveTransactionsRequestHandler(),
+  new RegisterRequestHandler(),
 );
