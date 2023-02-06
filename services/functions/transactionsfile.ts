@@ -6,10 +6,13 @@ import {
 } from '../util/RequestHandler';
 
 import { RequestIdentityId } from '../util/IdentityId';
-
+import { parseSheet, parseXlsx } from '../impl/xlsx/XlsxFileParser';
 import { S3UserStorageClient } from '../api/storage/StorageClient';
 import { S3 } from 'aws-sdk';
 import { ZondaCsvTradeHistoryTransactionProvider } from '../impl/zonda/ZondaCsvTradeHistoryTransactionProvider';
+import { BinanceTradeHistoryTransactionProvider } from '../impl/binance/BinanceTradeHistoryTransactionProvider';
+import { TransactionProvider } from 'api/types';
+import { BinanceExcelTransactionRow } from 'impl/binance/BinanceTypes';
 class ImportTransactionHistoryFile implements RequestHandler {
   async handleRequest(event: APIGatewayProxyEventV2): Promise<HandlerResponse> {
     const identity = new RequestIdentityId(event);
@@ -44,12 +47,20 @@ class ImportTransactionHistoryFile implements RequestHandler {
     file: S3.GetObjectOutput,
     type: 'ZONDA' | string,
   ) {
+    let provider: TransactionProvider | null = null;
     if (type == 'ZONDA') {
       const csvBody = file.Body?.toString('utf-8');
       console.log(csvBody);
-      const provider = new ZondaCsvTradeHistoryTransactionProvider(
-        csvBody ?? '',
-      );
+      provider = new ZondaCsvTradeHistoryTransactionProvider(csvBody ?? '');
+    }
+    if (type === 'BINANCE') {
+      if (file.Body) {
+        const excel = parseXlsx(file.Body);
+        const rows = parseSheet(excel[0]) as BinanceExcelTransactionRow[];
+        provider = new BinanceTradeHistoryTransactionProvider(rows);
+      }
+    }
+    if (provider) {
       return await provider.getTransactions();
     }
     return [];

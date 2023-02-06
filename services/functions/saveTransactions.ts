@@ -33,7 +33,7 @@ class SaveTransactionsRequestHandler implements RequestHandler {
       };
     }
 
-    db.saveTransactions(identity.getUserId(), body.transactions);
+    await db.saveTransactions(identity.getUserId(), body.transactions);
 
     return {
       statusCode: 204,

@@ -55,6 +55,9 @@ export const Navigation = () => {
             <Nav.Item as={Link} to="/import/file/zonda">
               Zonda
             </Nav.Item>
+            <Nav.Item as={Link} to="/import/file/binance">
+              Binance
+            </Nav.Item>
           </Nav.Menu>
         </Nav.Menu>
       </Nav>

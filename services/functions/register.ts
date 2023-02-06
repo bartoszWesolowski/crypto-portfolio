@@ -32,7 +32,7 @@ class RegisterRequestHandler implements RequestHandler {
     }
 
     console.log(body);
-
+    // TODO: do not allow creating more than one element with that ID
     await db.registerUser({
       userId: identity.getUserId(),
       transactions: [],
