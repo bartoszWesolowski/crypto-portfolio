@@ -1,10 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { parseExcelDate } from 'read-excel-file';
 import { parseSheet, parseXlsx } from '../../xlsx/XlsxFileParser';
-import { BinanceRowTransactionItem } from '../BinanceRowTransactionItem';
 import { BinanceTradeHistoryTransactionProvider } from '../BinanceTradeHistoryTransactionProvider';
 import { BinanceExcelTransactionRow } from '../BinanceTypes';
+import { describe, it, expect } from 'vitest';
 describe('Binance xlsx parser', () => {
   it('should parse file correctly', async () => {
     const rows = getTransactionRows('transactions.xlsx');
@@ -45,7 +44,7 @@ describe('Binance xlsx parser', () => {
     const parsed = parser.getTransactions();
     expect(parsed).toHaveLength(167);
   });
-  
+
   it('should parse other file containing large number of transactions correctly', async () => {
     const rows = getTransactionRows('transactions-2.xlsx');
     const parser = new BinanceTradeHistoryTransactionProvider(rows);

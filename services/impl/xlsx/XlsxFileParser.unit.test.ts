@@ -1,9 +1,6 @@
-import { S3 } from 'aws-sdk';
 import fs from 'fs';
-import readXlsxFile from 'read-excel-file';
-import xlsx from 'node-xlsx';
 import { parseSheet, parseXlsx } from './XlsxFileParser';
-
+import { describe, it, expect } from 'vitest';
 describe('Xlsx parser', () => {
   it('should parse file correctly', async () => {
     const content = fs.readFileSync(__dirname + '/transactions.xlsx');

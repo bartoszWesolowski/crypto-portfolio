@@ -1,5 +1,7 @@
 import { BinanceRowTransactionItem } from './BinanceRowTransactionItem';
 import { BinanceExcelTransactionRow } from './BinanceTypes';
+import { describe, it, expect } from 'vitest';
+
 describe('Binance transaction item', () => {
   it('should  be created correctly based on excel item', async () => {
     const excelRow = {
