@@ -60,6 +60,11 @@ export const Navigation = () => {
             </Nav.Item>
           </Nav.Menu>
         </Nav.Menu>
+        <Nav.Menu title="Summary">
+          <Nav.Item as={Link} to="/summary/transactions">
+            Transactions
+          </Nav.Item>
+        </Nav.Menu>
       </Nav>
       {isAuthenticated ? <LoggedInUserRightMenu /> : <AnonymousUserRightMenu />}
     </Navbar>

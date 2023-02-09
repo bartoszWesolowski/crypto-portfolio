@@ -35,14 +35,26 @@ export default function Profile() {
     }
   };
 
+  const summaryCall = async () => {
+    try {
+      const r = await API.get('crypto-portfolio', '/transactions/summary', {});
+      setResponse(r);
+    } catch (e) {
+      alert('Request failed ' + JSON.stringify(e));
+    }
+  };
+
   return (
     <FlexboxGrid justify="center">
       <FlexboxGrid.Item colspan={12}>
         <h1>Profile</h1>
         <Button onClick={callPublicApi}>Call public API</Button>
         <Button onClick={callPrivateApi}>Call private API</Button>
+        <Button onClick={summaryCall}>Summary</Button>
         <h2>Response</h2>
-        <div>{JSON.stringify(response) || 'No response yet'} </div>
+        <pre>
+          <div>{JSON.stringify(response, null, 4) || 'No response yet'} </div>
+        </pre>
       </FlexboxGrid.Item>
     </FlexboxGrid>
   );

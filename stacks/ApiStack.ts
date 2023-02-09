@@ -21,6 +21,7 @@ export function ApiStack({ stack }: StackContext) {
       'POST /register': 'functions/register.main',
       'GET /transactions/file': 'functions/transactionsfile.main',
       'GET /transactions': 'functions/getTransactions.main',
+      'GET /transactions/summary': 'functions/getTransactionsSummary.main',
       'POST /transactions': 'functions/saveTransactions.main',
       'GET /public': {
         function: 'functions/public.main',
