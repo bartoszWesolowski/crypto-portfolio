@@ -50,13 +50,13 @@ export const TransactionList = () => {
         <FlexboxGrid.Item colspan={24}>
           <Panel header={<h3>Transactions</h3>} bordered>
             <Table
-              height={500}
+              autoHeight={true}
               data={transactions}
               onRowClick={(rowData) => {
                 console.log(rowData);
               }}
             >
-              <Column width={80} align="center" fixed>
+              <Column width={80} align="center" fixed fullText>
                 <HeaderCell>Id</HeaderCell>
                 <Cell dataKey="_id" />
               </Column>

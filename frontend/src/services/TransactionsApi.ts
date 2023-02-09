@@ -11,6 +11,18 @@ export interface TransactionsFromFileResponse {
   transactions: TransactionItem[];
 }
 
+export interface TransactionsSummaryEntry {
+  pair: string;
+  amountBought?: number;
+  amountSpent?: number;
+  amountSold?: number;
+  amountEarned?: number;
+};
+
+export type TransactionsSummaryResponse = {
+  transactionsSummary: TransactionsSummaryEntry[];
+};
+
 export interface TransactionsApiClient {
   getTransactionsFromFile(
     params: TransactionsFromFileParams,
@@ -19,6 +31,8 @@ export interface TransactionsApiClient {
   saveTransactions(transactions: TransactionItem[]): Promise<any>;
 
   getTransactions(): Promise<TransactionsFromFileResponse>;
+
+  getTransactionsSummary(): Promise<TransactionsSummaryResponse>;
 }
 
 export class TransactionsApiClientImpl implements TransactionsApiClient {
@@ -50,5 +64,10 @@ export class TransactionsApiClientImpl implements TransactionsApiClient {
       '/transactions',
       {},
     )) as TransactionsFromFileResponse;
+  }
+
+  async getTransactionsSummary(): Promise<TransactionsSummaryResponse> {
+    const r = await API.get('crypto-portfolio', '/transactions/summary', {});
+    return r as TransactionsSummaryResponse;
   }
 }

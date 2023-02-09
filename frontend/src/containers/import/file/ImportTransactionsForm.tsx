@@ -57,12 +57,13 @@ export const ImportTransactionsForm = ({
         <FlexboxGrid.Item colspan={24}>
           <Panel header={<h3>Processed Transactions</h3>} bordered>
             <Table
+              autoHeight={true}
               data={transactions}
               onRowClick={(rowData) => {
                 console.log(rowData);
               }}
             >
-              <Column width={60} align="center" fixed>
+              <Column width={60} align="center" fixed fullText>
                 <HeaderCell>Id</HeaderCell>
                 <Cell dataKey="id" />
               </Column>
