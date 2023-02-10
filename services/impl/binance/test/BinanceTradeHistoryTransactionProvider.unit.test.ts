@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import { parseSheet, parseXlsx } from '../../xlsx/XlsxFileParser';
-import { BinanceTradeHistoryTransactionProvider } from '../BinanceTradeHistoryTransactionProvider';
+import { BinanceExcelTradeHistoryTransactionProvider } from '../BinanceExcelTradeHistoryTransactionProvider';
 import { BinanceExcelTransactionRow } from '../BinanceTypes';
 import { describe, it, expect } from 'vitest';
 describe('Binance xlsx parser', () => {
   it('should parse file correctly', async () => {
     const rows = getTransactionRows('transactions.xlsx');
-    const parser = new BinanceTradeHistoryTransactionProvider(rows);
+    const parser = new BinanceExcelTradeHistoryTransactionProvider(rows);
     const parsed = parser.getTransactions();
     expect(parsed).toHaveLength(2);
     expect(parsed).toEqual([
@@ -40,14 +40,14 @@ describe('Binance xlsx parser', () => {
 
   it('should parse file containing large number of transactions correctly', async () => {
     const rows = getTransactionRows('transactions-1.xlsx');
-    const parser = new BinanceTradeHistoryTransactionProvider(rows);
+    const parser = new BinanceExcelTradeHistoryTransactionProvider(rows);
     const parsed = parser.getTransactions();
     expect(parsed).toHaveLength(167);
   });
 
   it('should parse other file containing large number of transactions correctly', async () => {
     const rows = getTransactionRows('transactions-2.xlsx');
-    const parser = new BinanceTradeHistoryTransactionProvider(rows);
+    const parser = new BinanceExcelTradeHistoryTransactionProvider(rows);
     const parsed = parser.getTransactions();
     expect(parsed).toHaveLength(163);
   });

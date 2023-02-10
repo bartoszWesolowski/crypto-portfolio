@@ -30,7 +30,7 @@ export function handler(requestHandler: RequestHandler) {
         body: { error: message },
         statusCode: 500,
       };
-      console.log(e);
+      console.error(e);
     }
 
     // Return HTTP response

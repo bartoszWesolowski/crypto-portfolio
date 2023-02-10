@@ -10,3 +10,5 @@ export class BinanceDateParser implements DateParser {
     return moment.parseZone(date, ZONDA_DATE_FORMAT).toDate();
   }
 }
+
+export const BINANCE_DATE_PARSER = new BinanceDateParser();
