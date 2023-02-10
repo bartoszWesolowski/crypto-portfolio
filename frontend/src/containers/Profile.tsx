@@ -44,6 +44,19 @@ export default function Profile() {
     }
   };
 
+  const recalculateTransactions = async () => {
+    try {
+      const r = await API.post(
+        'crypto-portfolio',
+        '/transactions/summary/recalculate',
+        {},
+      );
+      setResponse(r);
+    } catch (e) {
+      alert('Request failed ' + JSON.stringify(e));
+    }
+  };
+
   return (
     <FlexboxGrid justify="center">
       <FlexboxGrid.Item colspan={12}>
@@ -51,6 +64,9 @@ export default function Profile() {
         <Button onClick={callPublicApi}>Call public API</Button>
         <Button onClick={callPrivateApi}>Call private API</Button>
         <Button onClick={summaryCall}>Summary</Button>
+        <Button onClick={recalculateTransactions}>
+          Recalculate transactions
+        </Button>
         <h2>Response</h2>
         <pre>
           <div>{JSON.stringify(response, null, 4) || 'No response yet'} </div>

@@ -8,30 +8,23 @@ import {
 import { RequestIdentityId } from '../util/IdentityId';
 
 import { TransactionsAggregateDbClientImpl } from 'api/storage/TransactionsAggregateDbClient';
-class GetTransactionsSummaryHandler implements RequestHandler {
+
+class RecalculateTransactionsHandler implements RequestHandler {
   async handleRequest(event: APIGatewayProxyEventV2): Promise<HandlerResponse> {
     const identity = new RequestIdentityId(event);
     const client = new TransactionsAggregateDbClientImpl();
-    const portfolioSummary = await client.getTransactionsSummary(
+    const transactions = await client.calculateTransactionsSummary(
       identity.getUserId(),
     );
-    if (!portfolioSummary) {
-      return {
-        statusCode: 404,
-        body: {
-          message: 'Unable to get portfolio summary',
-        },
-      };
-    }
+    await client.saveTransactionsSummary(identity.getUserId(), transactions);
     return {
       body: {
-        transactionsSummary: portfolioSummary.transactionsSummary.transactions,
-        lastModified: portfolioSummary.transactionsSummary.lastModified,
+        message: 'Success',
       },
     };
   }
 }
 
 export const main: APIGatewayProxyHandlerV2 = handler(
-  new GetTransactionsSummaryHandler(),
+  new RecalculateTransactionsHandler(),
 );

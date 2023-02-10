@@ -130,6 +130,7 @@ export const TransactionsSummary = () => {
   };
 
   useEffect(() => {
+    console.log('use effect');
     getTransactions();
   }, []);
 
@@ -241,13 +242,6 @@ export const TransactionsSummary = () => {
     );
   };
 
-  const render = () => {
-    return transactions.length > 0 ? (
-      transactionsForm()
-    ) : (
-      <div>No transactions</div>
-    );
-  };
 
-  return isLoading ? <Loader /> : render();
+  return  transactionsForm();
 };

@@ -1,6 +1,6 @@
 import { usersCollection } from './MongoDbClient';
 import { AggregationCursor } from 'mongodb';
-import { Document } from 'bson';
+import { Document, Timestamp } from 'bson';
 
 export type TransactionAggregateResult = {
   pair: string;
@@ -17,8 +17,36 @@ export type AggregationResult = {
   amountSold?: number;
   amountEarned: number;
 };
+
+export type TransactionsSummary = {
+  lastModified: Timestamp;
+  transactions: TransactionAggregateResult[];
+};
+
+export type PortfolioSummary = {
+  transactionsSummary: TransactionsSummary;
+};
+
+export type PortfolioSummaryResponse = {
+  summary: PortfolioSummary;
+};
 export class TransactionsAggregateDbClientImpl {
   async getTransactionsSummary(
+    userId: string,
+  ): Promise<PortfolioSummary | null> {
+    const db = await usersCollection();
+    const result = await db.findOne(
+      { userId: userId },
+      { projection: { 'summary.transactionsSummary.transactions': 1 } },
+    );
+
+    if (result) {
+      return (result as unknown as PortfolioSummaryResponse).summary;
+    }
+    return null;
+  }
+
+  async calculateTransactionsSummary(
     userId: string,
   ): Promise<TransactionAggregateResult[]> {
     const db = await usersCollection();
@@ -65,6 +93,25 @@ export class TransactionsAggregateDbClientImpl {
     const allBought = await this.getAllResults(buyAggregateCursor);
     const allSold = await this.getAllResults(sellAggregateCursor);
     return this.combineAggregationResults(allBought, allSold);
+  }
+
+  async saveTransactionsSummary(
+    userId: string,
+    summary: TransactionAggregateResult[],
+  ) {
+    const db = await usersCollection();
+    return await db.updateOne(
+      { userId: userId },
+      {
+        $currentDate: {
+          lastModified: true,
+          'summary.transactionsSummary.lastModified': { $type: 'timestamp' },
+        },
+        $set: {
+          'summary.transactionsSummary.transactions': summary,
+        },
+      },
+    );
   }
 
   private async getAllResults(cursor: AggregationCursor<Document>) {
