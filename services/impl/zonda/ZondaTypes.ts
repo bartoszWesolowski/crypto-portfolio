@@ -1,4 +1,4 @@
-export interface ZondaCsvItem {
+export interface BinanceTradeHistoryCsvItem {
   Market: string;
   'Operation date': string;
   Action: 'Sell' | 'Buy';

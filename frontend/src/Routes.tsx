@@ -10,6 +10,7 @@ import { Login } from './containers/Login';
 import Profile from './containers/Profile';
 import { Signup } from './containers/Singup';
 import { TransactionsSummary } from './containers/statiscits/transaction_sumary/TransactionsSummary';
+import BinanceCsvFileImport from './containers/import/file/binance/BinanceCsvFileImport';
 
 export const LINKS = {
   REGISTER_BUSINESS: '/business/register',
@@ -25,6 +26,7 @@ export default function AppRoutes() {
       <Route path="/business" element={<BusinessHome />} />
       <Route path="/import/file/zonda" element={<ZondaFileImport />} />
       <Route path="/import/file/binance" element={<BinanceFileImport />} />
+      <Route path="/import/file/binance-csv" element={<BinanceCsvFileImport />} />
       <Route path="/transactions" element={<TransactionsPage />} />
 
       <Route path="/summary/transactions" element={<TransactionsSummary/>} />

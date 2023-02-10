@@ -23,4 +23,4 @@ export interface TransactionItem {
   comment?: string;
 }
 
-export type TransactionsFileProvider = 'ZONDA' | 'BINANCE';
+export type TransactionsFileProvider = 'ZONDA' | 'BINANCE' | 'BINANCE_CSV';

@@ -9,6 +9,16 @@ export interface BinanceExcelTransactionRow {
   'Fee Coin': string;
 }
 
+export interface BinanceTradeHistoryCsvItem {
+  'Date(UTC)': string;
+  Pair: string;
+  Side: 'Sell' | 'Buy';
+  Price: string;
+  Executed: string;
+  Amount: string;
+  Fee: string;
+}
+
 export const BINANCE_COIN_IDS = [
   'BTC',
   'WBTC',
@@ -17,15 +27,21 @@ export const BINANCE_COIN_IDS = [
   'BAT',
   'COMP',
   'DOGE',
+  'DGB',
   'VET',
   'LINK',
   'CHZ',
   'AMP',
   'MATIC',
+  'VTHO',
+  '1INCH',
+  'SHIB',
   'SANTOS',
   'DOT',
   'GALA',
   'SOL',
+  'CTSI',
+  'FTM',
   'LTC',
   'HBAR',
   'AUDIO',

@@ -46,7 +46,6 @@ export const Navigation = () => {
       <Navbar.Brand>Crypto Portfolio</Navbar.Brand>
       <Nav>
         <Nav.Item href="/" icon={<HomeIcon />}></Nav.Item>
-        <Nav.Item href="/import/file/zonda">Zonda</Nav.Item>
         <Nav.Menu title="Enter Coins">
           <Nav.Item as={Link} to="/transactions">
             Enter coins
@@ -57,6 +56,9 @@ export const Navigation = () => {
             </Nav.Item>
             <Nav.Item as={Link} to="/import/file/binance">
               Binance
+            </Nav.Item>
+            <Nav.Item as={Link} to="/import/file/binance-csv">
+              Binance Csv
             </Nav.Item>
           </Nav.Menu>
         </Nav.Menu>

@@ -1,9 +1,8 @@
 import { TransactionItem, TransactionProvider } from '../../api/types';
 import { BinanceRowTransactionItem } from './BinanceRowTransactionItem';
-import { Row } from 'read-excel-file';
 import { BinanceExcelTransactionRow } from './BinanceTypes';
 
-export class BinanceTradeHistoryTransactionProvider
+export class BinanceExcelTradeHistoryTransactionProvider
   implements TransactionProvider
 {
   transactionHistorySheet: BinanceExcelTransactionRow[];
