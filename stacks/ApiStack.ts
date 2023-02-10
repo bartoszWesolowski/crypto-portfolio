@@ -22,6 +22,7 @@ export function ApiStack({ stack }: StackContext) {
       'GET /transactions/file': 'functions/transactionsfile.main',
       'GET /transactions': 'functions/getTransactions.main',
       'GET /transactions/summary': 'functions/getTransactionsSummary.main',
+      'POST /transactions/summary/recalculate': 'functions/recalculateTransactionsSummary.main',
       'POST /transactions': 'functions/saveTransactions.main',
       'GET /public': {
         function: 'functions/public.main',

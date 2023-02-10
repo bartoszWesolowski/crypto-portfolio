@@ -9,7 +9,7 @@ import { TransactionsPage } from './containers/import/manual/TransactionsPage';
 import { Login } from './containers/Login';
 import Profile from './containers/Profile';
 import { Signup } from './containers/Singup';
-import { TransactionsSummary } from './containers/statiscits/transaction_sumary/TransactionsSummary';
+import { TransactionsSummary } from './containers/summary/transaction_sumary/TransactionsSummary';
 import BinanceCsvFileImport from './containers/import/file/binance/BinanceCsvFileImport';
 
 export const LINKS = {
