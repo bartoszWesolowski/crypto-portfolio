@@ -7,12 +7,12 @@ import {
 
 import { RequestIdentityId } from '../util/IdentityId';
 
-import { TransactionsAggregateDbClientImpl } from 'api/storage/TransactionsAggregateDbClient';
+import { TransactionsSummaryDbClientImpl } from '../api/storage/TransactionsSummaryDbClient';
 
 class RecalculateTransactionsHandler implements RequestHandler {
   async handleRequest(event: APIGatewayProxyEventV2): Promise<HandlerResponse> {
     const identity = new RequestIdentityId(event);
-    const client = new TransactionsAggregateDbClientImpl();
+    const client = new TransactionsSummaryDbClientImpl();
     const transactions = await client.calculateTransactionsSummary(
       identity.getUserId(),
     );

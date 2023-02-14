@@ -17,7 +17,8 @@ export interface TransactionsSummaryEntry {
   amountSpent?: number;
   amountSold?: number;
   amountEarned?: number;
-};
+  price?: number;
+}
 
 export type TransactionsSummaryResponse = {
   transactionsSummary: TransactionsSummaryEntry[];

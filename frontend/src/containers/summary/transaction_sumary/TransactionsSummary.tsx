@@ -23,15 +23,23 @@ class TransactionSummaryEntryWrapper implements TransactionsSummaryEntry {
     this.amountSpent = wrapped.amountSpent ?? 0;
     this.amountSold = wrapped.amountSold ?? 0;
     this.amountEarned = wrapped.amountEarned ?? 0;
+    this.price = wrapped.price ?? 0;
     this.balance = this.getBalance();
+    this.currentValue = this.getCurrentValue();
+    this.gains =
+      this.balance * this.price + this.amountEarned - this.amountSpent;
   }
+
   pair: string;
   amountBought: number;
   amountSpent: number;
   amountSold: number;
   amountEarned: number;
-  balance: number;
+  price: number;
 
+  balance: number;
+  currentValue: number;
+  gains: number;
   /**
    * averageBuyPrice: number  */
   public averageBuyPrice(): number {
@@ -52,6 +60,13 @@ class TransactionSummaryEntryWrapper implements TransactionsSummaryEntry {
    * averageBuyPrice: number  */
   public getBalance(): number {
     return this.amountBought - this.amountSold;
+  }
+
+  /**
+   * getCurrentValue
+   */
+  public getCurrentValue() {
+    return this.price * this.balance;
   }
 
   public getProp(name: string): string | number | undefined {
@@ -156,7 +171,12 @@ export const TransactionsSummary = () => {
                 <Cell dataKey="pair" />
               </Column>
 
-              <Column width={200} sortable>
+              <Column align="center" fullText sortable>
+                <HeaderCell>Price</HeaderCell>
+                <Cell dataKey="price" />
+              </Column>
+
+              <Column sortable>
                 <HeaderCell>Balance</HeaderCell>
                 <Cell fullText dataKey="balance">
                   {(data) => (
@@ -167,6 +187,21 @@ export const TransactionsSummary = () => {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 5,
                         })}
+                    </span>
+                  )}
+                </Cell>
+              </Column>
+              <Column sortable>
+                <HeaderCell>Current Value</HeaderCell>
+                <Cell fullText dataKey="currentValue">
+                  {(data) => (
+                    <span>
+                      {(
+                        data as TransactionSummaryEntryWrapper
+                      ).currentValue.toLocaleString('en-gb', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 5,
+                      })}
                     </span>
                   )}
                 </Cell>
@@ -235,6 +270,18 @@ export const TransactionsSummary = () => {
                   )}
                 </Cell>
               </Column>
+              <Column sortable>
+                <HeaderCell>Gains</HeaderCell>
+                <Cell fullText dataKey="gains">
+                  {(data) => (
+                    <span>
+                      {(data as TransactionSummaryEntryWrapper).gains.toFixed(
+                        2,
+                      )}
+                    </span>
+                  )}
+                </Cell>
+              </Column>
             </Table>
           </Panel>
         </FlexboxGrid.Item>
@@ -242,6 +289,5 @@ export const TransactionsSummary = () => {
     );
   };
 
-
-  return  transactionsForm();
+  return transactionsForm();
 };
