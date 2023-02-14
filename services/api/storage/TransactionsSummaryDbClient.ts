@@ -30,7 +30,8 @@ export type PortfolioSummary = {
 export type PortfolioSummaryResponse = {
   summary: PortfolioSummary;
 };
-export class TransactionsAggregateDbClientImpl {
+
+export class TransactionsSummaryDbClientImpl {
   async getTransactionsSummary(
     userId: string,
   ): Promise<PortfolioSummary | null> {

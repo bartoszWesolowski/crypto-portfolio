@@ -6,12 +6,18 @@ import {
 } from '../util/RequestHandler';
 
 import { RequestIdentityId } from '../util/IdentityId';
+import { TransactionSummaryCurrentAssetPriceDecorator } from '../impl/decorators/TransactionSummaryCurrentAssetPriceDecorator';
+import { TransactionsSummaryDbClientImpl } from 'api/storage/TransactionsSummaryDbClient';
+import { BinanceApiClient } from 'api/binance/BinanceApiClient';
 
-import { TransactionsAggregateDbClientImpl } from 'api/storage/TransactionsAggregateDbClient';
+const client = new TransactionsSummaryDbClientImpl();
+const decorator = new TransactionSummaryCurrentAssetPriceDecorator(
+  new BinanceApiClient(),
+);
+
 class GetTransactionsSummaryHandler implements RequestHandler {
   async handleRequest(event: APIGatewayProxyEventV2): Promise<HandlerResponse> {
     const identity = new RequestIdentityId(event);
-    const client = new TransactionsAggregateDbClientImpl();
     const portfolioSummary = await client.getTransactionsSummary(
       identity.getUserId(),
     );
@@ -23,9 +29,12 @@ class GetTransactionsSummaryHandler implements RequestHandler {
         },
       };
     }
+    const decorated = await decorator.decorate(
+      portfolioSummary.transactionsSummary.transactions,
+    );
     return {
       body: {
-        transactionsSummary: portfolioSummary.transactionsSummary.transactions,
+        transactionsSummary: decorated,
         lastModified: portfolioSummary.transactionsSummary.lastModified,
       },
     };
