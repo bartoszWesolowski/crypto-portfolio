@@ -21,6 +21,7 @@ export interface TransactionItem {
   secondaryCurrency: string;
   description?: string;
   _id: string | ObjectId;
+  priceInUsd?: number;
   cryptoMarket: 'Zonda' | 'Binance' | 'Crypto.com' | string;
   comment?: string;
 }
