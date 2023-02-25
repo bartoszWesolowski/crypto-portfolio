@@ -29,9 +29,14 @@ class GetTransactionsSummaryHandler implements RequestHandler {
         },
       };
     }
-    const decorated = await decorator.decorate(
-      portfolioSummary.transactionsSummary.transactions,
-    );
+    let decorated = portfolioSummary.transactionsSummary.transactions;
+    try {
+      decorated = await decorator.decorate(
+        portfolioSummary.transactionsSummary.transactions,
+      );
+    } catch (e) {
+      console.error('Failed to decorate transaction summary', e);
+    }
     return {
       body: {
         transactionsSummary: decorated,
